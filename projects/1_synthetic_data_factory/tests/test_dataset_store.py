@@ -1,5 +1,11 @@
-"""Tests for the DatasetStore."""
+"""Tests for the DatasetStore.
+
+These tests verify that datasets can be saved, loaded, and listed correctly,
+and that path traversal attacks are prevented by input validation.
+"""
 import tempfile
+
+import pytest
 
 from src.services.dataset_store import DatasetStore
 
@@ -33,3 +39,13 @@ class TestDatasetStore:
         self.store.save([{"question": "Q2", "answer": "A2"}], "domain")
         loaded = self.store.load("domain")
         assert len(loaded) == 2
+
+    def test_path_traversal_rejected_on_save(self):
+        """Domain names with path separators must be rejected."""
+        with pytest.raises(ValueError, match="Invalid domain"):
+            self.store.save([{"question": "Q", "answer": "A"}], "../escape")
+
+    def test_path_traversal_rejected_on_load(self):
+        """Domain names with path separators must be rejected."""
+        with pytest.raises(ValueError, match="Invalid domain"):
+            self.store.load("../../etc/passwd")
