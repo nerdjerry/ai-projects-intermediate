@@ -18,9 +18,19 @@ class LegalEvaluator:
         predictions: list[dict[str, str]],
         ground_truth: list[dict[str, str]],
     ) -> EvalResult:
-        """Compute accuracy and risk detection metrics."""
+        """Compute accuracy and risk detection metrics.
+
+        Raises:
+            ValueError: If predictions and ground_truth have different lengths.
+        """
         if not predictions or not ground_truth:
             return EvalResult(accuracy=0.0, risk_precision=0.0, risk_recall=0.0)
+
+        if len(predictions) != len(ground_truth):
+            raise ValueError(
+                f"predictions and ground_truth must have the same length, "
+                f"got {len(predictions)} and {len(ground_truth)}"
+            )
 
         correct = 0
         risk_tp = 0
@@ -44,8 +54,8 @@ class LegalEvaluator:
             elif not is_risky_pred and is_risky_true:
                 risk_fn += 1
 
-        n = min(len(predictions), len(ground_truth))
-        accuracy = correct / n if n else 0.0
+        n = len(predictions)
+        accuracy = correct / n
         precision = risk_tp / (risk_tp + risk_fp) if (risk_tp + risk_fp) else 0.0
         recall = risk_tp / (risk_tp + risk_fn) if (risk_tp + risk_fn) else 0.0
 

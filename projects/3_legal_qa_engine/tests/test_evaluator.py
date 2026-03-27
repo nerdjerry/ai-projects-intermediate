@@ -1,4 +1,5 @@
 """Tests for the LegalEvaluator."""
+import pytest
 from src.services.evaluator import LegalEvaluator
 
 
@@ -33,3 +34,9 @@ class TestLegalEvaluator:
     def test_empty_inputs(self):
         result = self.evaluator.evaluate([], [])
         assert result.accuracy == 0.0
+
+    def test_length_mismatch_raises(self):
+        preds = [{"risk_level": "high"}]
+        truth = [{"risk_level": "high"}, {"risk_level": "low"}]
+        with pytest.raises(ValueError, match="same length"):
+            self.evaluator.evaluate(preds, truth)
