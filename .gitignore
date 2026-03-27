@@ -57,3 +57,7 @@ data/
 # Database
 *.db
 *.sqlite3
+
+# Runtime data directories
+datasets/
+prompts/
