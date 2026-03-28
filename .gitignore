@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Data files
+*.csv
+*.jsonl
+*.parquet
+data/
+
+# Audio files
+*.mp3
+*.wav
+*.m4a
+*.flac
+
+# Model files
+*.bin
+*.pt
+*.pth
+*.onnx
+*.safetensors
+
+# Database
+*.db
+*.sqlite3
+
+# Runtime data directories
+datasets/
+prompts/
